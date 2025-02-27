@@ -22,6 +22,7 @@ async def get_browser():
         return browser
 
 os.environ["OPENAI_API_KEY"] = "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"
+
 class JioPayScraper:
     def __init__(self):
         self.crawler = AsyncWebCrawler()
@@ -40,17 +41,10 @@ class JioPayScraper:
                         url=url,
                         parse_with_js=True,
                         browser="chromium",
-                        wait_for={
-                            "type": "networkidle", 
-                            "timeout": 60000  # 60 seconds
-                            # Try multiple wait strategies
-                            #{"type": "selector", "selector": ".main-content", "timeout": 30000},
-                            #{"type": "timeout", "timeout": 10000},
-                            #{"type": "networkidle", "timeout": 30000}
-                        },
-                        page_timeout=120000,  # Increase overall timeout to 120 seconds
-                        screenshot=True,
-                        proxy="auto",
+                        wait_for="networkidle",
+                        page_timeout=60000,  # Increase overall timeout to 120 seconds
+                        screenshot=False,
+                        proxy="None",
                         headers={
                             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
                         }
