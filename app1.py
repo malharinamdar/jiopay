@@ -3,10 +3,15 @@ import asyncio
 
 # Install Playwright browsers if not already installed
 async def install_playwright():
-    os.system("playwright install chromium")
-    os.system("playwright install-deps")
-
-asyncio.run(install_playwright())
+    try:
+        # Skip sudo-based installation since it's not allowed in Streamlit Cloud
+        # Just use the already downloaded browser
+        os.system("playwright install chromium --with-deps")
+        print("Playwright installation attempted without sudo")
+        # Don't wait for completion, continue with what we have
+    except Exception as e:
+        print(f"Error installing Playwright: {e}")
+        # Continue anyway
 
 from crawl4ai import AsyncWebCrawler
 from langchain_openai import OpenAI, OpenAIEmbeddings
@@ -40,10 +45,10 @@ class JioPayScraper:
                 try:
                     result = await crawler.arun(
                         url=url,
-                        parse_with_js=True,
+                        parse_with_js=False,
                         browser="chromium",
-                        wait_for="networkidle",
-                        page_timeout=60000,  # Increase overall timeout to 120 seconds
+                        wait_for="load",
+                        page_timeout=30000,  # Increase overall timeout to 120 seconds
                         screenshot=False,
                         proxy="None",
                         headers={
