@@ -14,6 +14,12 @@ def initialize_session_state():
         st.session_state.messages = []
 
 @st.cache_resource(show_spinner=False)
+def setup_chatbot_sync():
+    """Runs the async setup in a synchronous way"""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    return loop.run_until_complete(setup_chatbot())
+
 async def setup_chatbot():
     """Cache the chatbot setup to avoid re-initialization on every reload"""
     scraper = JioPayScraper()
@@ -41,10 +47,9 @@ def main():
     # Initialize chatbot once
     if not st.session_state.initialized:
         with st.spinner("Initializing assistant..."):
-            st.session_state.chatbot = asyncio.run(setup_chatbot())
+            st.session_state.chatbot = setup_chatbot_sync()
             if st.session_state.chatbot:
                 st.session_state.initialized = True
-                # Add initial greeting
                 if not st.session_state.messages:
                     st.session_state.messages.append({
                         "role": "assistant",
