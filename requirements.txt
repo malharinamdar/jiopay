@@ -5,3 +5,4 @@ crawl4ai
 langchain
 langchain_openai
 faiss-cpu
+langchain-community
