@@ -1,9 +1,32 @@
 import streamlit as st
 import asyncio
+import os
+import subprocess
 from app1 import JioPayScraper, JioPayChatbot  # Import from app1.py
 
 # Set up the app
 st.set_page_config(page_title="JioPay Assistant", page_icon="🤖")
+
+# Setup Playwright for Streamlit Cloud
+def setup_playwright():
+    if 'STREAMLIT_RUNTIME' in os.environ:
+        try:
+            # Install the required browsers
+            subprocess.run(["playwright", "install", "chromium"], check=True)
+            st.success("Playwright browser installed successfully")
+        except Exception as e:
+            st.error(f"Failed to install Playwright browser: {str(e)}")
+            try:
+                # Try installing playwright first
+                subprocess.run(["pip", "install", "playwright"], check=True)
+                # Then install the browser
+                subprocess.run(["playwright", "install", "chromium"], check=True)
+                st.success("Playwright and browser installed successfully")
+            except Exception as e2:
+                st.error(f"Failed to install Playwright and browser: {str(e2)}")
+
+# Run setup before anything else
+setup_playwright()
 
 def initialize_session_state():
     if 'chatbot' not in st.session_state:
@@ -26,7 +49,11 @@ async def setup_chatbot():
     chatbot = JioPayChatbot()
     
     with st.spinner("Scraping latest JioPay information..."):
-        scraped_data = await scraper.scrape_all()
+        try:
+            scraped_data = await scraper.scrape_all()
+        except Exception as e:
+            st.error(f"Error during scraping: {str(e)}")
+            return None
     
     if not scraped_data:
         st.error("Failed to scrape data. Please check the connection and try again.")
@@ -43,7 +70,7 @@ def main():
     
     st.title("JioPay Customer Support Assistant")
     st.markdown("Ask me anything about JioPay services!")
-
+    
     # Initialize chatbot once
     if not st.session_state.initialized:
         with st.spinner("Initializing assistant..."):
@@ -55,7 +82,7 @@ def main():
                         "role": "assistant",
                         "content": "Welcome to JioPay Support! How can I help you today?"
                     })
-
+    
     # Display chat messages from history
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
@@ -63,7 +90,7 @@ def main():
             if message["role"] == "assistant" and "sources" in message:
                 with st.expander("View Sources"):
                     st.markdown(f"Sources: {message['sources']}")
-
+    
     # Chat interface
     if st.session_state.initialized:
         user_input = st.chat_input("Ask your question about JioPay...")
