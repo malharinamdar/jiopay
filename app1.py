@@ -1,5 +1,12 @@
-import asyncio
 import os
+import asyncio
+
+# Install Playwright browsers if not already installed
+async def install_playwright():
+    os.system("playwright install chromium")
+
+asyncio.run(install_playwright())
+
 from crawl4ai import AsyncWebCrawler
 from langchain_openai import OpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
