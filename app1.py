@@ -8,7 +8,7 @@ from langchain.chains import RetrievalQA
 from typing import List, Dict
 from langchain_text_splitters import TokenTextSplitter  # Update import
 
-os.environ["OPENAI_API_KEY"] = ""
+os.environ["OPENAI_API_KEY"] = "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"
 class JioPayScraper:
     def __init__(self):
         self.crawler = AsyncWebCrawler()
