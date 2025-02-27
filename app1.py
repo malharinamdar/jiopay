@@ -8,7 +8,7 @@ from langchain.chains import RetrievalQA
 from typing import List, Dict
 from langchain_text_splitters import TokenTextSplitter  # Update import
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 class JioPayScraper:
     def __init__(self):
         self.crawler = AsyncWebCrawler()
@@ -114,7 +114,6 @@ class JioPayChatbot:
             return f"Error processing your question: {str(e)}"
 
 async def async_main():
-    os.environ["OPENAI_API_KEY"] = "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"
     
     scraper = JioPayScraper()
     print("Scraping JioPay websites...")
