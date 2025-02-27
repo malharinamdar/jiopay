@@ -4,6 +4,7 @@ import asyncio
 # Install Playwright browsers if not already installed
 async def install_playwright():
     os.system("playwright install chromium")
+    os.system("playwright install-deps")
 
 asyncio.run(install_playwright())
 
