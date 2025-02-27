@@ -7,6 +7,12 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain.chains import RetrievalQA
 from typing import List, Dict
 from langchain_text_splitters import TokenTextSplitter  # Update import
+from playwright.async_api import async_playwright
+
+async def get_browser():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        return browser
 
 os.environ["OPENAI_API_KEY"] = "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"
 class JioPayScraper:
