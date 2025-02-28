@@ -48,7 +48,7 @@ class JioPayScraper:
                         browser="chromium",
                         browser_channel="chromium",
                         wait_for="networkidle",
-                        page_timeout=60000,  # Increase overall timeout to 120 seconds
+                        page_timeout=120000,  # Increase overall timeout to 120 seconds
                         screenshot=False,
                         proxy="None",
                         headers={
