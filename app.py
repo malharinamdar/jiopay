@@ -1,7 +1,9 @@
+import os
 import subprocess
 
 def install_playwright():
-    subprocess.run(["playwright", "install", "--with-deps"], check=True)
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "0"  # Ensures playwright installs browsers in a local path
+    subprocess.run(["playwright", "install"], check=True)
 
 install_playwright()
 
