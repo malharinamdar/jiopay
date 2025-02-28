@@ -1,4 +1,4 @@
-# Use the official Streamlit base image with Python 3.12
+# Use the official Streamlit base image with Python 3.10
 FROM streamlit/streamlit:1.31.0
 
 # Set environment variables
