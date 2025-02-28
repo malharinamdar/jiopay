@@ -4,11 +4,10 @@ import asyncio
 # Install Playwright browsers if not already installed
 async def install_playwright():
     try:
-        # Skip sudo-based installation since it's not allowed in Streamlit Cloud
-        # Just use the already downloaded browser
+        
         os.system("playwright install chromium --with-deps")
         print("Playwright installation attempted without sudo")
-        # Don't wait for completion, continue with what we have
+        
     except Exception as e:
         print(f"Error installing Playwright: {e}")
         # Continue anyway
