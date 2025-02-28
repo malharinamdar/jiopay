@@ -46,6 +46,7 @@ class JioPayScraper:
                         url=url,
                         parse_with_js=True,
                         browser="chromium",
+                        browser_channel="chromium",
                         wait_for="networkidle",
                         page_timeout=60000,  # Increase overall timeout to 120 seconds
                         screenshot=False,
