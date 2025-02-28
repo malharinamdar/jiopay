@@ -84,5 +84,5 @@ def main():
 
             # Rerun to update the chat display
             st.rerun()
-if name == "main":
+if __name__ == "__main__":
     main()
