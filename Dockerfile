@@ -1,44 +1,38 @@
-# Use the official Streamlit base image
-FROM streamlit/streamlit:latest
+# Use the official Streamlit base image with Python 3.12
+FROM streamlit/streamlit:1.31.0
 
 # Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive \
+    PLAYWRIGHT_BROWSERS_PATH=/app/playwright-browsers
 
-# Install system dependencies (replaces packages.txt)
+# Install system dependencies with proper repository configuration
 RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    software-properties-common && \
+    add-apt-repository contrib && \
+    add-apt-repository non-free && \
+    apt-get update && \
     apt-get install -y \
     libnss3 \
+    libnspr4 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
     libcups2 \
-    libxkbcommon-x11-0 \
     libxcomposite1 \
-    libxrandr2 \
-    libgbm1 \
-    libpango-1.0-0 \
-    libasound2 \
     libxdamage1 \
     libxfixes3 \
-    libcairo2 \
-    wget \
-    xvfb \
-    libgtk-3-0 \
-    libgbm-dev \
-    libnspr4 \
-    libdrm2 \
-    libdbus-1-3 \
-    libxcb1 \
+    libxrandr2 \
+    libgbm1 \
     libxkbcommon0 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
     libatspi2.0-0 \
-    libx11-6 \
-    libxext6 \
     libxslt1.1 \
-    libwoff1.0.2-2 \
+    libwoff2dec1.0.2 \
     libevent-2.1-7 \
     libopus0 \
     libflite1 \
-    libflite-usenglish \
-    libflite-cmulex \
     libwebpdemux2 \
     libharfbuzz-icu0 \
     libwebpmux3 \
@@ -49,18 +43,20 @@ RUN apt-get update && \
     libgudev-1.0-0 \
     libgles2 \
     libx264-160 \
+    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright and its browsers
-RUN playwright install chromium
-RUN playwright install-deps
+# Install Playwright and browsers
+RUN playwright install chromium && \
+    playwright install-deps && \
+    playwright install --with-deps chromium
 
-# Copy your application code
-COPY . .
+# Copy application code
+COPY app.py app1.py ./
 
 # Set the command to run your Streamlit app
 CMD ["streamlit", "run", "app.py"]
