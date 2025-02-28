@@ -1,6 +1,7 @@
 streamlit
 asyncio
 playwright
+pyee
 crawl4ai
 langchain
 langchain_openai
