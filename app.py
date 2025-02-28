@@ -2,10 +2,14 @@ import os
 import subprocess
 
 def install_playwright():
-    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = "0"  # Ensures playwright installs browsers in a local path
+    # Set a writable directory for browser installation
+    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.join(os.getcwd(), "playwright-browsers")
+    
+    # Install Playwright without needing sudo
     subprocess.run(["playwright", "install"], check=True)
 
 install_playwright()
+
 
 import streamlit as st
 import asyncio
