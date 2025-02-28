@@ -1,14 +1,14 @@
 import os
 import subprocess
 
-def install_playwright():
+#def install_playwright():
     # Set a writable directory for browser installation
-    os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.join(os.getcwd(), "playwright-browsers")
+  #  os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.path.join(os.getcwd(), "playwright-browsers")
     
     # Install Playwright without needing sudo
-    subprocess.run(["playwright", "install"], check=True)
+ #   subprocess.run(["playwright", "install"], check=True)
 
-install_playwright()
+#install_playwright()
 
 
 import streamlit as st
