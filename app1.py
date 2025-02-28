@@ -45,10 +45,10 @@ class JioPayScraper:
                 try:
                     result = await crawler.arun(
                         url=url,
-                        parse_with_js=False,
+                        parse_with_js=True,
                         browser="chromium",
-                        wait_for="load",
-                        page_timeout=30000,  # Increase overall timeout to 120 seconds
+                        wait_for="networkidle",
+                        page_timeout=60000,  # Increase overall timeout to 120 seconds
                         screenshot=False,
                         proxy="None",
                         headers={
