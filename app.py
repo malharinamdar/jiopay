@@ -1,6 +1,14 @@
+import subprocess
+
+def install_playwright():
+    subprocess.run(["playwright", "install", "--with-deps"], check=True)
+
+install_playwright()
+
 import streamlit as st
 import asyncio
 from app1 import JioPayScraper, JioPayChatbot  # Import from app1.py
+
 # Set up the app
 st.set_page_config(page_title="JioPay Assistant", page_icon="🤖")
 def initialize_session_state():
